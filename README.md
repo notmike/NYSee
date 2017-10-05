@@ -1,2 +1,8 @@
 # NYSee
-Interior Navigation Mobile Application to assists users in navigating in interior spaces (focus on subway stations). This app will guide users to walk a certain amount of steps before making a turn or taking the stairs using real-time navigation. 
+Interior Navigation Mobile Application to assists users in navigating in interior spaces (focus on subway stations). 
+
+Getting Started
+1. Clone the project
+2. npm install (assuming you have node & npm)
+3. npm start
+4. press i for xcode simulator or download the expo app on iphone and scan barcode!
