@@ -1,4 +1,4 @@
-![](https://github.com/heyconnie/NYSee/blob/master/images/nysee-24bit-809x275.png?raw=true)
+![](https://github.com/heyconnie/NYSee/blob/master/images/nysee-24bit-400x135.png?raw=true)
 Interior Navigation Mobile Application to assists users in navigating in interior spaces (focus on subway stations). 
 
 Getting Started
