@@ -1,0 +1,4 @@
+NYSeeExpressMongoDbBackend/node_modules/
+NYSee/node_modules/
+.expo/
+npm-debug.*
