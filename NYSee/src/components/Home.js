@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import { Dropdown } from 'react-native-material-dropdown';
 import MapView from 'react-native-maps';
 
 const {WIDTH, HEIGHT} = Dimensions.get('window')
@@ -9,7 +10,7 @@ const ASPECT_RATIO = WIDTH / HEIGHT
 const LATTITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = 0.0421
 
-export default class Map extends React.Component {
+export default class Home extends React.Component {
   constructor(props) {
     super(props)
 
@@ -67,6 +68,7 @@ export default class Map extends React.Component {
   }
 
   render() {
+
     fetch('https://data.ny.gov/resource/hvwh-qtfg.json?$where=within_circle(entrance_location%2C'+ this.state.initialPosition.latitude + '%2C'+ this.state.initialPosition.longitude+'%2C2640)')
     .then(response =>
         response.json()
@@ -77,23 +79,20 @@ export default class Map extends React.Component {
     ).then(res => {
         this.setState({stationData: res.data});
     }))
-    
+
     return (
-      <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          region={this.state.initialPosition}
-          mapType="standard"
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          showsPointsOfInterest={true}
-          showsCompass={true}
-          showsBuildings={true}
-          showsIndoors={true}
-          zoomEnabled={true}
-        >
-        </MapView>
-      </View>
+     <View>
+     <Image
+       style={styles.image}
+       source={{uri: 'https://raw.githubusercontent.com/heyconnie/NYSee/master/images/nysee-24bit-400x135.png'}}
+     />
+     <Text style={styles.text}>Select Station</Text>
+     <Dropdown
+        label='Stations Within Your Area'
+        data={this.state.stationData}
+        containerStyle={styles.dropdown}
+      />
+     </View>
     );
   }
 }
@@ -103,13 +102,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  map: {
-    left: 0,
-    right: 0,
-    bottom: 50,
-    top: 0,
-    position: 'absolute'
+  text: {
+      fontSize: 35,
+      alignSelf: 'center',
+      color: 'black',
+      fontWeight: 'bold',
+      top: 120,
+      fontFamily: 'American Typewriter'
   },
+  image: {
+    width: 380,
+    height: 120,
+    top: 80,
+    alignItems: 'center'
+  },
+  dropdown: {
+    top: 80,
+    fontFamily: 'American Typewriter',
+    width: "80%",
+    margin: "10%"
+  }
 });
