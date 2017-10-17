@@ -55,7 +55,8 @@ class NearestStations extends React.Component {
         latitude: 0,
         longitude: 0
       },
-      stationData: []
+      stationData: [],
+      allData: []
     }
   }
 
@@ -100,6 +101,7 @@ class NearestStations extends React.Component {
         var stationNames = res.data.map(x=>x.station_name)
         var unique = stationNames.filter(onlyUnique);
         this.setState({stationData: unique})
+        this.setState({allData: res.data})
       })
       var lastRegion = {
         latitude: lat,
@@ -122,7 +124,7 @@ class NearestStations extends React.Component {
     this.props.navigator.push({
       component: StationEntrances,
       title: 'Select Start Entrance',
-      passProps: {index: nextIndex}
+      passProps: {index: nextIndex, stationData: this.state.stationData, allData: this.state.allData}
     });
   }
 
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
   image: {
     width: 380,
     height: 120,
-    top: 80,
+    top: 90,
     alignItems: 'center'
   },
   dropdown: {
@@ -176,7 +178,7 @@ const styles = StyleSheet.create({
     margin: "10%"
   },
   continueButton: {
-    top: 50,
+    top: 40,
     fontFamily: 'American Typewriter',
     width: "60%",
     margin: "20%",
