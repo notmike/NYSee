@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image, Dimensions, NavigatorIOS} from 'react-na
 import { Button, Icon } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
 import MapView from 'react-native-maps';
+import StationEntrances from './StationEntrances';
+import PropTypes from 'prop-types';
 
 const {WIDTH, HEIGHT} = Dimensions.get('window')
 const SCREEN_HEIGHT = HEIGHT
@@ -11,9 +13,36 @@ const ASPECT_RATIO = WIDTH / HEIGHT
 const LATTITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = 0.0421
 
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+
 export default class Home extends React.Component {
-  constructor(props) {
-    super(props)
+  render() {
+    return (
+      <NavigatorIOS
+        initialRoute={{
+          component: NearestStations,
+          title: 'NYSee',
+          passProps: {index: 1},
+        }}
+        style={{flex: 1}}
+      />
+    )
+  }
+}
+
+class NearestStations extends React.Component {
+  static propTypes = {
+    route: PropTypes.shape({
+      title: PropTypes.string.isRequired
+    }),
+    navigator: PropTypes.object.isRequired,
+  }
+
+  constructor(props, context) {
+    super(props, context)
+    this._onForward = this._onForward.bind(this);
 
     this.state = {
       initialPosition: {
@@ -26,16 +55,25 @@ export default class Home extends React.Component {
         latitude: 0,
         longitude: 0
       },
-      stationData: ""
+      stationData: []
     }
   }
 
   watchID: ?number = null
 
-  componentDidMount() {
+  componentWillMount() {
     navigator.geolocation.getCurrentPosition((position) => {
       var lat = parseFloat(position.coords.latitude)
       var long = parseFloat(position.coords.longitude)
+
+      fetch('https://data.ny.gov/resource/hvwh-qtfg.json?$where=within_circle(entrance_location%2C'+ lat + '%2C'+ long +'%2C1000)')
+      .then(response => response.json())
+      .then(data => ({
+          data: data
+      }))
+      .then(res => {
+
+      })
 
       var initialRegion = {
         latitude: lat,
@@ -53,6 +91,16 @@ export default class Home extends React.Component {
       var lat = parseFloat(position.coords.latitude)
       var long = parseFloat(position.coords.longitude)
 
+      fetch('https://data.ny.gov/resource/hvwh-qtfg.json?$where=within_circle(entrance_location%2C'+ lat + '%2C'+ long +'%2C1000)')
+      .then(response => response.json())
+      .then(data => ({
+          data: data
+      }))
+      .then(res => {
+        var stationNames = res.data.map(x=>x.station_name)
+        var unique = stationNames.filter(onlyUnique);
+        this.setState({stationData: unique})
+      })
       var lastRegion = {
         latitude: lat,
         longitude: long,
@@ -62,41 +110,23 @@ export default class Home extends React.Component {
       this.setState({initialPosition: lastRegion})
       this.setState({markerPosition: lastRegion })
     })
+
   }
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID)
   }
 
-  // _handleNavigationRequestStationEntrance() {
-  //   this.refs.nav.push({
-  //     component: StationEntrances,
-  //     title: 'Station Entrances',
-  //   });
-  // }
+  _onForward() {
+    let nextIndex = ++this.props.index;
+    this.props.navigator.push({
+      component: StationEntrances,
+      title: 'Select Start Entrance',
+      passProps: {index: nextIndex}
+    });
+  }
 
   render() {
-
-    fetch('https://data.ny.gov/resource/hvwh-qtfg.json?$where=within_circle(entrance_location%2C'+ this.state.initialPosition.latitude + '%2C'+ this.state.initialPosition.longitude+'%2C250)')
-    .then(response => response.json()
-    .then(data => ({
-        data: data
-    }))
-    .then(res => {
-        var obj = res.data;
-        var keys = Object.keys(obj[0]);
-        stationName = obj[0]["station_name"];
-        return this.setState({stationData: stationName})
-    }))
-
-    let data = [{
-      value: this.state.stationData,
-    }, {
-      value: 'Station 2',
-    }, {
-      value: 'Station 3',
-    }];
-
     return (
      <View>
      <Image
@@ -106,10 +136,10 @@ export default class Home extends React.Component {
      <Text style={styles.text}>Select Station</Text>
      <Dropdown
         label='Stations Within Your Area'
-        data={data}
+        data={this.state.stationData.map(x=>({'value': x}))}
         containerStyle={styles.dropdown}
       />
-      <Button iconRight primary style={styles.continueButton} >
+      <Button iconRight primary style={styles.continueButton} onPress={this._onForward}>
         <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
         <Icon name='arrow-forward' />
       </Button>

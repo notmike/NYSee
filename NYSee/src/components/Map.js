@@ -67,17 +67,6 @@ export default class Map extends React.Component {
   }
 
   render() {
-    fetch('https://data.ny.gov/resource/hvwh-qtfg.json?$where=within_circle(entrance_location%2C'+ this.state.initialPosition.latitude + '%2C'+ this.state.initialPosition.longitude+'%2C2640)')
-    .then(response =>
-        response.json()
-        .then(data => ({
-            data: data,
-            status: response.status
-        })
-    ).then(res => {
-        this.setState({stationData: res.data});
-    }))
-    
     return (
       <View style={styles.container}>
         <MapView

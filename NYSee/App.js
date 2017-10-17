@@ -4,7 +4,6 @@ import { Footer, FooterTab, Button, Icon, Container } from 'native-base';
 
 import Map from './src/components/Map';
 import Home from './src/components/Home';
-import NearestStations from './src/components/NearestStations';
 
 export default class App extends React.Component {
 
@@ -40,7 +39,7 @@ export default class App extends React.Component {
               <Text>Map</Text>
             </Button>
             <Button vertical active>
-              <Icon active name="train" />
+              <Icon active name="train" onPress={() => this._handleNavigationRequestNearestStations()}/>
               <Text>Directions</Text>
             </Button>
             <Button vertical>
