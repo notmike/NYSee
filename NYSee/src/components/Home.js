@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, NavigatorIOS} from 'react-native';
+import { Button, Icon } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
 import MapView from 'react-native-maps';
 
@@ -25,7 +26,7 @@ export default class Home extends React.Component {
         latitude: 0,
         longitude: 0
       },
-      stationData: []
+      stationData: ""
     }
   }
 
@@ -67,18 +68,34 @@ export default class Home extends React.Component {
     navigator.geolocation.clearWatch(this.watchID)
   }
 
+  // _handleNavigationRequestStationEntrance() {
+  //   this.refs.nav.push({
+  //     component: StationEntrances,
+  //     title: 'Station Entrances',
+  //   });
+  // }
+
   render() {
 
-    fetch('https://data.ny.gov/resource/hvwh-qtfg.json?$where=within_circle(entrance_location%2C'+ this.state.initialPosition.latitude + '%2C'+ this.state.initialPosition.longitude+'%2C2640)')
-    .then(response =>
-        response.json()
-        .then(data => ({
-            data: data,
-            status: response.status
-        })
-    ).then(res => {
-        this.setState({stationData: res.data});
+    fetch('https://data.ny.gov/resource/hvwh-qtfg.json?$where=within_circle(entrance_location%2C'+ this.state.initialPosition.latitude + '%2C'+ this.state.initialPosition.longitude+'%2C250)')
+    .then(response => response.json()
+    .then(data => ({
+        data: data
     }))
+    .then(res => {
+        var obj = res.data;
+        var keys = Object.keys(obj[0]);
+        stationName = obj[0]["station_name"];
+        return this.setState({stationData: stationName})
+    }))
+
+    let data = [{
+      value: this.state.stationData,
+    }, {
+      value: 'Station 2',
+    }, {
+      value: 'Station 3',
+    }];
 
     return (
      <View>
@@ -89,9 +106,14 @@ export default class Home extends React.Component {
      <Text style={styles.text}>Select Station</Text>
      <Dropdown
         label='Stations Within Your Area'
-        data={this.state.stationData}
+        data={data}
         containerStyle={styles.dropdown}
       />
+      <Button iconRight primary style={styles.continueButton} >
+        <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
+        <Icon name='arrow-forward' />
+      </Button>
+
      </View>
     );
   }
@@ -122,5 +144,12 @@ const styles = StyleSheet.create({
     fontFamily: 'American Typewriter',
     width: "80%",
     margin: "10%"
+  },
+  continueButton: {
+    top: 50,
+    fontFamily: 'American Typewriter',
+    width: "60%",
+    margin: "20%",
+    padding: "5%"
   }
 });

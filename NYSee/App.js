@@ -17,8 +17,8 @@ export default class App extends React.Component {
 
   _handleNavigationRequestNearestStations() {
     this.refs.nav.push({
-      component: NearestStations,
-      title: 'NearestStations',
+      component: Home,
+      title: 'Select Station',
     });
   }
 
@@ -39,12 +39,12 @@ export default class App extends React.Component {
               <Icon active name="navigate" />
               <Text>Map</Text>
             </Button>
-            <Button vertical onPress={() => this._handleNavigationRequestNearestStations()}>
-              <Icon name="train" />
+            <Button vertical active>
+              <Icon active name="train" />
               <Text>Directions</Text>
             </Button>
             <Button vertical>
-              <Icon name="person" />
+              <Icon active name="person" />
               <Text>Profile</Text>
             </Button>
           </FooterTab>
