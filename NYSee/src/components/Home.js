@@ -163,7 +163,6 @@ const styles = StyleSheet.create({
       color: 'black',
       fontWeight: 'bold',
       top: 120,
-      fontFamily: 'American Typewriter'
   },
   image: {
     width: 380,
@@ -173,13 +172,11 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     top: 80,
-    fontFamily: 'American Typewriter',
     width: "80%",
     margin: "10%"
   },
   continueButton: {
     top: 40,
-    fontFamily: 'American Typewriter',
     width: "60%",
     margin: "20%",
     padding: "5%"
