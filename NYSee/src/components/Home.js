@@ -43,7 +43,7 @@ class NearestStations extends React.Component {
 
   constructor(props, context) {
     super(props, context)
-    this._onForward = this._onForward.bind(this);
+    this._onForward = this._onForward.bind(this)
 
     this.state = {
       initialPosition: {
@@ -132,10 +132,7 @@ class NearestStations extends React.Component {
   }
 
   _selectedStation(station) {
-      this.setState({
-          ...this.state,
-          selectedStation: station
-      });
+      this.setState({selectedStation: station});
   }
 
   render() {
@@ -145,9 +142,9 @@ class NearestStations extends React.Component {
        style={styles.image}
        source={{uri: 'https://raw.githubusercontent.com/heyconnie/NYSee/master/images/nysee-24bit-400x135.png'}}
      />
-     <Text style={styles.text}>Select Station</Text>
+     <Text style={styles.text}>Select a Station</Text>
      <Dropdown
-        label='Stations Within Your Area'
+        label='Stations Nearby'
         data={this.state.stationData.map(x=>({'value': x}))}
         containerStyle={styles.dropdown}
         onChangeText={this._selectedStation.bind(this)}
