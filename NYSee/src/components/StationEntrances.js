@@ -1,14 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, NavigatorIOS} from 'react-native';
 import { Button, Icon } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
+import StationStartPlatforms from './StationStartPlatforms';
+import PropTypes from 'prop-types';
 
 export default class NearestStations extends React.Component {
-  super(props){
-
-  this.state = {
-    stationEntrances: []
+  static propTypes = {
+    route: PropTypes.shape({
+      title: PropTypes.string.isRequired
+    }),
+    navigator: PropTypes.object.isRequired,
   }
+  constructor(props, context) {
+    super(props, context)
+    this._onForward = this._onForward.bind(this);
+    this.state = {
+      stationEntrances: []
+    }
 }
 
   componentWillMount() {
@@ -23,6 +32,16 @@ export default class NearestStations extends React.Component {
     console.log(stationEntrances)                                  // *********** TEST PRINT *************
     this.setState({stationEntrances: stationEntrances});
   }
+
+  _onForward() {
+    let nextIndex = ++this.props.index;
+    this.props.navigator.push({
+      component: StationStartPlatforms,
+      title: 'Select Start Platform',
+      passProps: {index: nextIndex, stationEntrances: this.state.stationEntrances, selectedStation: this.props.selectedStation, allData: this.props.allData, stationData: this.props.stationData}
+    });
+  }
+
   render() {
     return (
       <View>
