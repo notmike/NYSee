@@ -3,10 +3,6 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { Button, Icon } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
 
-function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-}
-
 export default class NearestStations extends React.Component {
   super(props){
 
@@ -16,11 +12,16 @@ export default class NearestStations extends React.Component {
 }
 
   componentWillMount() {
-    data = this.props.allData;
-    var stationEntrances = data.map(x=>x.north_south_street)
-    var unique = stationEntrances.filter(onlyUnique);
-    console.log(unique);
-    this.setState({stationEntrances: unique});
+    // assign passed in api info regarding all stations w/in user's radius
+    data = this.props.allData
+    // assign passed in user selected station
+    selectedStation = this.props.selectedStation
+    // filter data[] to only the station user specified
+    var selectedStationData = data.filter(x => x.station_name === selectedStation)
+    // make array of human readable station entrances
+    var stationEntrances = selectedStationData.map(x=>x.corner + ' corner of ' + x.east_west_street + ' and ' + x.north_south_street)
+    console.log(stationEntrances)                                  // *********** TEST PRINT *************
+    this.setState({stationEntrances: stationEntrances});
   }
   render() {
     return (

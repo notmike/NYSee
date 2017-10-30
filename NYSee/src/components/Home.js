@@ -12,6 +12,7 @@ const SCREEN_WIDTH = WIDTH
 const ASPECT_RATIO = WIDTH / HEIGHT
 const LATTITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = 0.0421
+const RADIUS = 1000                               // current default is 1000 meter radius around user's coordinates
 
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
@@ -56,7 +57,8 @@ class NearestStations extends React.Component {
         longitude: 0
       },
       stationData: [],
-      allData: []
+      allData: [],
+      selectedStation : ''
     }
   }
 
@@ -67,13 +69,14 @@ class NearestStations extends React.Component {
       var lat = parseFloat(position.coords.latitude)
       var long = parseFloat(position.coords.longitude)
 
-      fetch('https://data.ny.gov/resource/hvwh-qtfg.json?$where=within_circle(entrance_location%2C'+ lat + '%2C'+ long +'%2C1000)')
+      fetch('https://data.ny.gov/resource/hvwh-qtfg.json?$where=within_circle(entrance_location%2C'+ lat + '%2C'+ long + '%2C' + RADIUS +')')
+
       .then(response => response.json())
       .then(data => ({
           data: data
       }))
       .then(res => {
-
+          // IS SOMETHING SUPPOSED TO GO HERE?**********************************
       })
 
       var initialRegion = {
@@ -92,7 +95,7 @@ class NearestStations extends React.Component {
       var lat = parseFloat(position.coords.latitude)
       var long = parseFloat(position.coords.longitude)
 
-      fetch('https://data.ny.gov/resource/hvwh-qtfg.json?$where=within_circle(entrance_location%2C'+ lat + '%2C'+ long +'%2C1000)')
+      fetch('https://data.ny.gov/resource/hvwh-qtfg.json?$where=within_circle(entrance_location%2C'+ lat + '%2C'+ long +'%2C' + RADIUS +')')
       .then(response => response.json())
       .then(data => ({
           data: data
@@ -124,8 +127,15 @@ class NearestStations extends React.Component {
     this.props.navigator.push({
       component: StationEntrances,
       title: 'Select Start Entrance',
-      passProps: {index: nextIndex, stationData: this.state.stationData, allData: this.state.allData}
+      passProps: {index: nextIndex, stationData: this.state.stationData, allData: this.state.allData, selectedStation: this.state.selectedStation}
     });
+  }
+
+  _selectedStation(station) {
+      this.setState({
+          ...this.state,
+          selectedStation: station
+      });
   }
 
   render() {
@@ -140,6 +150,7 @@ class NearestStations extends React.Component {
         label='Stations Within Your Area'
         data={this.state.stationData.map(x=>({'value': x}))}
         containerStyle={styles.dropdown}
+        onChangeText={this._selectedStation.bind(this)}
       />
       <Button iconRight primary style={styles.continueButton} onPress={this._onForward}>
         <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
