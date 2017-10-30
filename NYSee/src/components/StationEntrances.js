@@ -29,7 +29,7 @@ export default class NearestStations extends React.Component {
     var selectedStationData = data.filter(x => x.station_name === selectedStation)
     // make array of human readable station entrances
     var stationEntrances = selectedStationData.map(x=>x.corner + ' corner of ' + x.east_west_street + ' and ' + x.north_south_street)
-    console.log(stationEntrances)                                  // *********** TEST PRINT *************
+    // set state variable of stationEntrances[] to our human readable versions
     this.setState({stationEntrances: stationEntrances});
   }
 
