@@ -30,21 +30,21 @@ export default class DestinationPlatforms extends React.Component {
   componentWillMount() {
     // selectedStation = this.props.selectedStation
     selectedEntrance = this.props.selectedEntrance
-    console.log(selectedStation)                                               // ************ TEST PRINT ************
-    console.log(selectedEntrance)                                              // ************ TEST PRINT ************
+    // console.log(selectedStation)                                               // ************ TEST PRINT ************
+    // console.log(selectedEntrance)                                              // ************ TEST PRINT ************
 
     // assign passed in api info regarding station user selected
     stationData = this.props.stationData
-    console.log(stationData)                                                          // ************ TEST PRINT ************
+    // console.log(stationData)                                                          // ************ TEST PRINT ************
     // filter stationData[] to only the entrance that the user specified
-    var selectedStationData = stationData.filter(x => x.corner + ' corner of ' + x.east_west_street + ' and ' + x.north_south_street === selectedEntrance)
-    console.log(selectedStationData)                                           // ********* TEST PRINT ************
+    var selectedStationData = stationData.filter(x => x.corner + ' corner of ' + x.east_west_street + ' and ' + x.north_south_street === selectedEntrance)                                      // ********* TEST PRINT ************
+    var firstObject = selectedStationData[0]
+    var routes = Object.keys(firstObject).filter(x=>x.includes("route")).map(x=>firstObject[x])
     // make array of human readable station entrances
-      console.log(selectedStationData.includes('route2'))                         // NEED TO GET AN ARRAY OF ALL THE ROUTES (ROUTE1 - 11) TO POPULATE DROPDOWN WITH
-    var stationPlatforms = selectedStationData.map(x=>x.route1)
+      // console.log(selectedStationData.includes('route2'))                         // NEED TO GET AN ARRAY OF ALL THE ROUTES (ROUTE1 - 11) TO POPULATE DROPDOWN WITH
     // set state variable of stationEntrances[] to our human readable versions
     this.setState({stationData: selectedStationData})
-    this.setState({stationPlatforms: stationPlatforms})
+    this.setState({stationPlatforms: routes})
     // this.setState({selectedEntrance: selectedEntrance})
   }
 
@@ -118,4 +118,3 @@ const styles = StyleSheet.create({
       top: 40,
   },
 });
-

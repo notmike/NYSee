@@ -12,7 +12,7 @@ const SCREEN_WIDTH = WIDTH
 const ASPECT_RATIO = WIDTH / HEIGHT
 const LATTITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = 0.0421
-const RADIUS = 1000                               // current default is 1000 meter radius around user's coordinates
+const RADIUS = 5000                               // current default is 1000 meter radius around user's coordinates
 
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
