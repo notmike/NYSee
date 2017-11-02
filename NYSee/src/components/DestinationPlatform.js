@@ -4,6 +4,7 @@ import { Button, Icon } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
 import PropTypes from 'prop-types';
 import GetOrSubmitDirections from './GetOrSubmitDirections.js';
+import styles from '../styles/default.js';
 
 export default class DestinationPlatforms extends React.Component {
 
@@ -28,24 +29,19 @@ export default class DestinationPlatforms extends React.Component {
   }
 
   componentWillMount() {
-    // selectedStation = this.props.selectedStation
     selectedEntrance = this.props.selectedEntrance
-    // console.log(selectedStation)                                               // ************ TEST PRINT ************
-    // console.log(selectedEntrance)                                              // ************ TEST PRINT ************
-
-    // assign passed in api info regarding station user selected
+    // assign passed in api info regarding station user selected (multiple entrance arrays for selected station)
     stationData = this.props.stationData
-    // console.log(stationData)                                                          // ************ TEST PRINT ************
-    // filter stationData[] to only the entrance that the user specified
-    var selectedStationData = stationData.filter(x => x.corner + ' corner of ' + x.east_west_street + ' and ' + x.north_south_street === selectedEntrance)                                      // ********* TEST PRINT ************
+    // create array (of objects) that only contains the entrance the user specified in the previous screen (should only be 1 record)
+    var selectedStationData = stationData.filter(x => x.corner + ' corner of ' + x.east_west_street + ' and ' + x.north_south_street === selectedEntrance)
+    // save the first (and only) entrance object in a new var
     var firstObject = selectedStationData[0]
+    // put each subway line in an array for the dropdown (save all values of any key containing "route" in a new array)
     var routes = Object.keys(firstObject).filter(x=>x.includes("route")).map(x=>firstObject[x])
-    // make array of human readable station entrances
-      // console.log(selectedStationData.includes('route2'))                         // NEED TO GET AN ARRAY OF ALL THE ROUTES (ROUTE1 - 11) TO POPULATE DROPDOWN WITH
-    // set state variable of stationEntrances[] to our human readable versions
+    // set stationData to be the data of just 1 entrance
     this.setState({stationData: selectedStationData})
+    // set stationPlatforms to be the array of subway lines accessible from user's entrance
     this.setState({stationPlatforms: routes})
-    // this.setState({selectedEntrance: selectedEntrance})
   }
 
   _onForward() {
@@ -53,13 +49,17 @@ export default class DestinationPlatforms extends React.Component {
     this.props.navigator.push({
       component: GetOrSubmitDirections,
       title: 'Get or Submit Directions?',
-      passProps: {index: nextIndex, stationData: this.state.stationData, selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform}
+      passProps: {index: nextIndex, stationData: this.state.stationData, selectedStation: this.state.selectedStation,  selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform}
     });
 }
 
-  render() {
+_selectedPlatform(platform) {
+      this.setState({selectedPlatform: platform});
+  }
+
+render() {
     return (
-      <View>
+      <View style={styles.container}>
       <Image
         style={styles.image}
         source={{uri: 'https://raw.githubusercontent.com/heyconnie/NYSee/master/images/nysee-24bit-400x135.png'}}
@@ -69,6 +69,7 @@ export default class DestinationPlatforms extends React.Component {
          label='Subway Platforms at this Station'
          data={this.state.stationPlatforms.map(x=>({'value': x}))}
          containerStyle={styles.dropdown}
+         onChangeText={this._selectedPlatform.bind(this)}
        />
        <Button iconRight primary style={styles.continueButton} onPress={this._onForward}>
          <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
@@ -79,42 +80,3 @@ export default class DestinationPlatforms extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-  },
-  text: {
-      fontSize: 25,
-      alignSelf: 'center',
-      color: 'black',
-      fontWeight: 'bold',
-      top: 120,
-  },
-  image: {
-    width: 380,
-    height: 120,
-    top: 90,
-    alignItems: 'center'
-  },
-  dropdown: {
-    top: 80,
-    width: "80%",
-    margin: "10%"
-  },
-  continueButton: {
-    top: 40,
-    width: "60%",
-    margin: "20%",
-    padding: "5%"
-  },
-  textBack: {
-      fontSize: 15,
-      alignSelf: 'center',
-      color: 'gray',
-      fontWeight: 'bold',
-      top: 40,
-  },
-});

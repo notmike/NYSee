@@ -4,6 +4,7 @@ import { Button, Icon } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
 import DestinationPlatform from './DestinationPlatform.js';
 import PropTypes from 'prop-types';
+import styles from '../styles/default.js';
 
 export default class StationEntrances extends React.Component {
   static propTypes = {
@@ -55,7 +56,7 @@ _selectedEntrance(entrance) {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
       <Image
         style={styles.image}
         source={{uri: 'https://raw.githubusercontent.com/heyconnie/NYSee/master/images/nysee-24bit-400x135.png'}}
@@ -76,42 +77,3 @@ _selectedEntrance(entrance) {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-  },
-  text: {
-      fontSize: 25,
-      alignSelf: 'center',
-      color: 'black',
-      fontWeight: 'bold',
-      top: 120,
-  },
-  image: {
-    width: 380,
-    height: 120,
-    top: 90,
-    alignItems: 'center'
-  },
-  dropdown: {
-    top: 80,
-    width: "80%",
-    margin: "10%"
-  },
-  continueButton: {
-    top: 40,
-    width: "60%",
-    margin: "20%",
-    padding: "5%"
-  },
-  textBack: {
-      fontSize: 15,
-      alignSelf: 'center',
-      color: 'gray',
-      fontWeight: 'bold',
-      top: 40,
-  },
-});
