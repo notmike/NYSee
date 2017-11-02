@@ -4,6 +4,7 @@ import { Footer, FooterTab, Button, Icon, Container } from 'native-base';
 
 import Map from './src/components/Map';
 import Home from './src/components/Home';
+import styles from './src/styles/default.js';
 
 export default class App extends React.Component {
 
@@ -52,11 +53,3 @@ export default class App extends React.Component {
     );
   }
 }
-const styles = StyleSheet.create({
-  footer: {
-    left: 0,
-    right: 0,
-    bottom: 0,
-    position: 'absolute'
-  },
-});

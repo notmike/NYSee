@@ -48,25 +48,33 @@ export default class GetOrSubmitDirections extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={{uri: 'https://raw.githubusercontent.com/heyconnie/NYSee/master/images/nysee-24bit-400x135.png'}}
-      />
-      <Text style={styles.text}>Getting or Submitting Directions?</Text>
-      
-      <Text style={styles.textBack}>From: </Text>
-      <Text style={styles.textBack}>To: </Text>
-
-      <Button iconRight primary style={styles.continueButton} onPress={this._onForward}>
-          <Text style={{fontSize: 20, color: 'white'}}>Get Directions</Text>
-         <Icon name='arrow-forward' />
-      </Button>
-      <Button iconRight primary style={styles.submitButton} onPress={this._onForward}>
-          <Text style={{fontSize: 15, color: 'white'}}>Submit Directions</Text>
-         <Icon name='arrow-forward' />
-      </Button>
-      <Text style={styles.textBack}>Swipe Right to Go Back to Platforms</Text>
+    <View style={styles.container}>
+        <Image
+            style={styles.logo}
+            source={require('../img/nysee.png')}
+        />
+        <View style={styles.spacer} />
+        <View style={{width: "100%", height: "5%", padding: 10, backgroundColor: 'powderblue'}}>
+            <Text style={styles.subtitle}>From: </Text>
+        </View>
+        <View style={{width: "100%", height: "5%", padding: 10, backgroundColor: 'honeydew'}}>
+            <Text style={styles.subtitle}>To: </Text>
+        </View>
+        <View style={{width: "100%", height: "25%", padding: "13%"}}>
+            <Button iconRight success large style={styles.directionsButton} onPress={this._onForward}>
+                <Text style={{fontSize: 20, color: 'white'}}> Get Directions   </Text>
+                <Icon name='navigate'/>
+            </Button>
+        </View>
+        <View style={{width: "100%", height: "15%", padding: "8%"}}>
+            <Button iconRight info style={styles.submitButton} onPress={this._onForward}>
+                <Text style={{fontSize: 15, color: 'white'}}>Submit Directions</Text>
+                <Icon name='share' />
+            </Button>
+        </View>
+        <View style={{width: "100%", height: "15%", padding: "8%"}}>
+            <Text style={styles.textBack}>Swipe Right to Go Back</Text>
+        </View>
       </View>
     );
   }

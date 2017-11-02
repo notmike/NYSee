@@ -57,22 +57,24 @@ _selectedEntrance(entrance) {
   render() {
     return (
       <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={{uri: 'https://raw.githubusercontent.com/heyconnie/NYSee/master/images/nysee-24bit-400x135.png'}}
-      />
-      <Text style={styles.text}>Select a Station Entrance</Text>
-      <Dropdown
-         label='select an entrance'
-         data={this.state.stationEntrances.map(x=>({'value': x}))}
-         containerStyle={styles.dropdown}
-         onChangeText={this._selectedEntrance.bind(this)}
-       />
-       <Button iconRight primary style={styles.continueButton} onPress={this._onForward}>
-         <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
-         <Icon name='arrow-forward' />
-       </Button>
-       <Text style={styles.textBack}>Swipe Right to Go Back to Nearest Stations</Text>
+         <Image
+             style={styles.logo}
+             source={require('../img/nysee.png')}
+         />
+         <View style={styles.spacer} />
+         <Text style={styles.text}>Select a Station Entrance</Text>
+          <Dropdown
+             label='Select an Entrance'
+             data={this.state.stationEntrances.map(x=>({'value': x}))}
+             containerStyle={styles.dropdown}
+             onChangeText={this._selectedEntrance.bind(this)}
+           />
+           <Button iconRight primary style={styles.continueButton} onPress={this._onForward}>
+             <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
+             <Icon name='arrow-forward' />
+           </Button>
+           <View style={styles.spacer} />
+           <Text style={styles.textBack}>Swipe Right to Go Back</Text>
       </View>
     );
   }

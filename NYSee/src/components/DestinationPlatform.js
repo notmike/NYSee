@@ -61,9 +61,10 @@ render() {
     return (
       <View style={styles.container}>
       <Image
-        style={styles.image}
-        source={{uri: 'https://raw.githubusercontent.com/heyconnie/NYSee/master/images/nysee-24bit-400x135.png'}}
+          style={styles.logo}
+          source={require('../img/nysee.png')}
       />
+      <View style={styles.spacer} />
       <Text style={styles.text}>Select Destination Platform</Text>
       <Dropdown
          label='Subway Platforms at this Station'
@@ -75,7 +76,8 @@ render() {
          <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
          <Icon name='arrow-forward' />
        </Button>
-       <Text style={styles.textBack}>Swipe Right to Go Back to Station Entrances</Text>
+       <View style={styles.spacer} />
+       <Text style={styles.textBack}>Swipe Right to Go Back</Text>
       </View>
     );
   }

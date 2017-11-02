@@ -139,22 +139,24 @@ class NearestStations extends React.Component {
   render() {
     return (
      <View style={styles.container}>
-     <Image
-       style={styles.image}
-       source={{uri: 'https://raw.githubusercontent.com/heyconnie/NYSee/master/images/nysee-24bit-400x135.png'}}
-     />
-     <Text style={styles.text}>Select a Station</Text>
-     <Dropdown
-        label='Stations Nearby'
-        data={this.state.stationData.map(x=>({'value': x}))}
-        containerStyle={styles.dropdown}
-        onChangeText={this._selectedStation.bind(this)}
-      />
-      <Button iconRight primary style={styles.continueButton} onPress={this._onForward}>
-        <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
-        <Icon name='arrow-forward' />
-      </Button>
-
+         <Image
+           style={styles.logo}
+           source={require('../img/nysee.png')}
+         />
+         <View style={styles.spacer} />
+         <Text style={styles.text}>Select a Station</Text>
+         <Dropdown
+            label='Stations Nearby'
+            data={this.state.stationData.map(x=>({'value': x}))}
+            containerStyle={styles.dropdown}
+            onChangeText={this._selectedStation.bind(this)}
+          />
+          <View style={{width: "100%", height: "15%", padding: "8%"}}> 
+             <Button iconRight primary style={styles.continueButton} onPress={this._onForward}>
+                <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
+                <Icon name='arrow-forward' />
+             </Button>
+          </View>
      </View>
     );
   }
