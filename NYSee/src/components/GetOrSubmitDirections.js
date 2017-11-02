@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { Button, Icon } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
 import PropTypes from 'prop-types';
+import SubmitDirections from './SubmitDirections.js';
 styles = require('../styles/default.js');
 
 export default class GetOrSubmitDirections extends React.Component {
@@ -16,7 +17,7 @@ export default class GetOrSubmitDirections extends React.Component {
 
   constructor(props, context) {
     super(props, context)
-    this._onForward = this._onForward.bind(this)
+    this._submitDirections = this._submitDirections.bind(this)
 
       this.state = {
         stationData: [],
@@ -29,11 +30,11 @@ export default class GetOrSubmitDirections extends React.Component {
   componentWillMount() {
     selectedPlatform = this.props.selectedPlatform
 
-    console.log("***** GetOrSubmitDirections.js *****\n") // ********* TEST PRINT ************ 
-    console.log("stationData =\t", stationData) // ********* TEST PRINT ************ 
-    console.log("selectedStation =\t", selectedStation) // ********* TEST PRINT ************ 
-    console.log("selectedEntrance =\t", selectedEntrance) // ********* TEST PRINT ************ 
-    console.log("selectedPlatform =\t", selectedPlatform) // ********* TEST PRINT ************ 
+    console.log("***** GetOrSubmitDirections.js *****\n") // ********* TEST PRINT ************
+    console.log("stationData =\t", stationData) // ********* TEST PRINT ************
+    console.log("selectedStation =\t", selectedStation) // ********* TEST PRINT ************
+    console.log("selectedEntrance =\t", selectedEntrance) // ********* TEST PRINT ************
+    console.log("selectedPlatform =\t", selectedPlatform) // ********* TEST PRINT ************
 
     }
 
@@ -44,6 +45,15 @@ export default class GetOrSubmitDirections extends React.Component {
     //   title: 'Get or Submit Directions?',
     //   passProps: {index: nextIndex, stationData: this.state.stationData, selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform}
     // });
+}
+
+_submitDirections() {
+  let nextIndex = ++this.props.index;
+  this.props.navigator.push({
+    component: SubmitDirections,
+    title: 'Submit Directions',
+    passProps: {index: nextIndex, stationData: this.state.stationData, selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform}
+  });
 }
 
   render() {
@@ -67,7 +77,7 @@ export default class GetOrSubmitDirections extends React.Component {
             </Button>
         </View>
         <View style={{width: "100%", height: "15%", padding: "8%"}}>
-            <Button iconRight info style={styles.submitButton} onPress={this._onForward}>
+            <Button iconRight info style={styles.submitButton} onPress={this._submitDirections}>
                 <Text style={{fontSize: 15, color: 'white'}}>Submit Directions</Text>
                 <Icon name='share' />
             </Button>
