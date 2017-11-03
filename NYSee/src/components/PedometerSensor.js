@@ -3,13 +3,13 @@ import React from "react";
 import { Pedometer } from "expo";
 import { StyleSheet, Text, View, Image } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from '../styles/default.js';
 
 export default class PedometerSensor extends React.Component {
   state = {
     isPedometerAvailable: "checking",
     pastStepCount: 0,
-    currentStepCount: 0
+    currentStepCount: 0,
+    loggedDirections: []
   };
 
   componentDidMount() {
@@ -60,23 +60,39 @@ export default class PedometerSensor extends React.Component {
     this._subscription = null;
   };
 
+  recordSteps = (d) => {
+    var loggedDirections = this.state.loggedDirections;
+    if(loggedDirections.length != 0) {
+      var previousStep = loggedDirections[loggedDirections.length-1];
+      previousStep.steps = this.state.currentStepCount
+      loggedDirections[loggedDirections.length-1] = previousStep;
+    }
+    loggedDirections = loggedDirections.concat({direction: d, steps: 0});
+    this.setState({loggedDirections, currentStepCount: 0});
+
+    // this.setState(this.state.loggedDirections.push({direction: d, steps: this.state.currentStepCount}));
+  }
+
   render() {
+    console.log(this.state.loggedDirections)
     return (
       <View style={styles.container}>
-      <Icon name="arrow-up" size={120} color="#0084ff" onPress={() => console.log("UP")} />
+      <Icon name="arrow-up" size={120} color="#0084ff" onPress={() => this.recordSteps('UP')} />
         <View style={{flexDirection: 'row', top: -20}}>
-          <Icon name="arrow-left" size={120} color="#0084ff" style={{marginRight: '18%'}} onPress={() => console.log("LEFT")} />
-          <Icon name="arrow-right" size={120} color="#0084ff" style={{marginLeft: '18%'}} onPress={() => console.log("RIGHT")}/>
+          <Icon name="arrow-left" size={120} color="#0084ff" style={{marginRight: '18%'}} onPress={() => this.recordSteps('LEFT')} />
+          <Icon name="arrow-right" size={120} color="#0084ff" style={{marginLeft: '18%'}} onPress={() => this.recordSteps('RIGHT')}/>
         </View>
-          <Icon name="arrow-down" size={120} color="#0084ff" style={{top: -30}} onPress={() => console.log("DOWN")}/>
+          <Icon name="arrow-down" size={120} color="#0084ff" style={{top: -30}} onPress={() => this.recordSteps('DOWN')}/>
         <View style={{flexDirection: 'row'}}>
           <Image
               source={require('../img/stairs_up.png')}
               style={{marginRight: '18%'}}
+              onPress={() => this.recordSteps('UPSTAIRS')}
           />
           <Image
               source={require('../img/stairs_down.png')}
               style={{marginLeft: '18%'}}
+              onPress={() => this.recordSteps('DOWNSTAIRS')}
           />
         </View>
         <Text style={styles.textBack}>
@@ -87,5 +103,14 @@ export default class PedometerSensor extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 15,
+    alignItems: "center",
+    justifyContent: "center"
+  }
+});
 
 Expo.registerRootComponent(PedometerSensor);
