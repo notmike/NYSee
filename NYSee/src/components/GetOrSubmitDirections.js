@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { Button, Icon } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
 import PropTypes from 'prop-types';
-import SubmitDirections from './SubmitDirections.js';
+import PedometerSensor from './PedometerSensor.js';
 styles = require('../styles/default.js');
 
 export default class GetOrSubmitDirections extends React.Component {
@@ -50,7 +50,7 @@ export default class GetOrSubmitDirections extends React.Component {
 _submitDirections() {
   let nextIndex = ++this.props.index;
   this.props.navigator.push({
-    component: SubmitDirections,
+    component: PedometerSensor,
     title: 'Submit Directions',
     passProps: {index: nextIndex, stationData: this.state.stationData, selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform}
   });
