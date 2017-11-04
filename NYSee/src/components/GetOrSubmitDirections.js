@@ -64,11 +64,11 @@ _submitDirections() {
             source={require('../img/nysee.png')}
         />
         <View style={styles.spacer} />
-        <View style={{width: "100%", height: "5%", padding: 10, backgroundColor: 'powderblue'}}>
-            <Text style={styles.subtitle}>From: </Text>
+        <View style={{width: "100%", height: "10%", padding: 10, backgroundColor: 'powderblue'}}>
+            <Text style={styles.subtitle}>From:   {selectedStation} - {selectedEntrance}</Text>
         </View>
         <View style={{width: "100%", height: "5%", padding: 10, backgroundColor: 'honeydew'}}>
-            <Text style={styles.subtitle}>To: </Text>
+            <Text style={styles.subtitle}>To:     The {selectedPlatform} train</Text>
         </View>
         <View style={{width: "100%", height: "20%", padding: "10%"}}>
             <Button iconLeft success large style={styles.navigateButton} onPress={this._onForward}>
