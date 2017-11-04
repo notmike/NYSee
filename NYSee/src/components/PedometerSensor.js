@@ -1,7 +1,8 @@
 import Expo from "expo";
 import React from "react";
+import { Button } from 'native-base';
 import { Pedometer } from "expo";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { TouchableHighlight, TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/default.js';
 
@@ -62,27 +63,46 @@ export default class PedometerSensor extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-      <Icon name="arrow-up" size={120} color="#0084ff" onPress={() => console.log("UP")} />
-        <View style={{flexDirection: 'row', top: -20}}>
-          <Icon name="arrow-left" size={120} color="#0084ff" style={{marginRight: '18%'}} onPress={() => console.log("LEFT")} />
-          <Icon name="arrow-right" size={120} color="#0084ff" style={{marginLeft: '18%'}} onPress={() => console.log("RIGHT")}/>
+      <View style={styles.navigationContainer}>
+        <View style={{alignItems: 'center', top: 20, height: 100, width:"100%"}}>
+            <TouchableOpacity onPress={() => console.log("FORWARD")}>
+              <Image source={require('../img/arrow_up.png')}/>
+            </TouchableOpacity>
         </View>
-          <Icon name="arrow-down" size={120} color="#0084ff" style={{top: -30}} onPress={() => console.log("DOWN")}/>
-        <View style={{flexDirection: 'row'}}>
-          <Image
-              source={require('../img/stairs_up.png')}
-              style={{marginRight: '18%'}}
-          />
-          <Image
-              source={require('../img/stairs_down.png')}
-              style={{marginLeft: '18%'}}
-          />
+
+        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around',  top: 20, width:"100%", height:100}}>
+          <TouchableOpacity onPress={() => console.log("LEFT")}>
+            <Image source={require('../img/arrow_left.png')} style={styles.arrow_left} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log("RIGHT")}>
+            <Image source={require('../img/arrow_right.png')} style={styles.arrow_right} />
+          </TouchableOpacity>
         </View>
-        <Text style={styles.textBack}>
-          Pedometer.isAvailableAsync(): {this.state.isPedometerAvailable}
-        </Text>
-          <Text style={styles.textBack}>Walk! And watch this go up: {this.state.currentStepCount}</Text>
+
+        <View style={{alignItems: 'center', width:"100%", height: 100, top: 35}}>
+          <TouchableOpacity onPress={() => console.log("BACK")}>
+            <Image source={require('../img/arrow_down.png')} />
+        </TouchableOpacity>
+        </View>
+
+        <View style={{flexDirection: 'row', justifyContent: 'space-around', top:50}}>
+          <TouchableOpacity onPress={() => console.log("UPSTAIRS")}>
+            <Image source={require('../img/upstairs.png')} style={styles.upstairs_icon} />
+          </TouchableOpacity>
+          <View style={{width: 100, height: 80}} />
+          <TouchableOpacity onPress={() => console.log("DOWNSTAIRS")}>
+            <Image source={require('../img/downstairs.png')} style={styles.downstairs_icon} />
+          </TouchableOpacity>
+        </View>
+
+
+        <View style={{top: "10%", alignItems: 'center', padding: "5%", width:"100%"}}>
+            <Text style={styles.textBack}>
+              Pedometer.isAvailableAsync(): {this.state.isPedometerAvailable}
+            </Text>
+            <Text style={styles.textBack}>Walk! And watch this go up: {this.state.currentStepCount}</Text>
+        </View>
+
       </View>
     );
   }

@@ -152,7 +152,7 @@ class NearestStations extends React.Component {
             onChangeText={this._selectedStation.bind(this)}
           />
           <View style={{width: "100%", height: "15%", padding: "8%"}}> 
-             <Button iconRight primary style={styles.continueButton} onPress={this._onForward}>
+             <Button iconLeft primary large style={styles.continueButton} onPress={this._onForward}>
                 <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
                 <Icon name='arrow-forward' />
              </Button>

@@ -5,7 +5,7 @@ module.exports = StyleSheet.create({
 
   container: {
     top: 80,
-      padding: 10,
+    padding: 10,
     flex: 1,
     alignItems: 'center',
     backgroundColor: 'white',
@@ -29,18 +29,15 @@ module.exports = StyleSheet.create({
   },
   continueButton: {
     alignSelf: 'center',
-    width: "60%",
-    padding: "5%"
+    padding: "25%"
   },
-  directionsButton: {
+  navigateButton: {
     alignSelf: 'center',
-    width: "90%",
-    padding: "5%",
+    padding: "25%",
   },
   submitButton: {
     alignSelf: 'center',
-    width: "60%",
-    padding: "5%"
+    padding: "7%"
   },
   textBack: {
     fontSize: 15,
@@ -52,6 +49,23 @@ module.exports = StyleSheet.create({
     fontSize: 16,
     color: 'gray',
     fontStyle: 'italic',
+  },
+  upstairs_icon: {
+    marginRight: '5%',
+  },
+  downstairs_icon: {
+    marginLeft: '5%',
+  },
+  navigationContainer: {
+    flex: 1,
+    top: 80,
+    alignItems: 'center',
+  },
+  arrow_left: {
+    marginRight: '5%',
+  },
+  arrow_right: {
+    marginLeft: '5%',
   },
   footer: {
     left: 0,
