@@ -70,19 +70,19 @@ _submitDirections() {
         <View style={{width: "100%", height: "5%", padding: 10, backgroundColor: 'honeydew'}}>
             <Text style={styles.subtitle}>To: </Text>
         </View>
-        <View style={{width: "100%", height: "25%", padding: "13%"}}>
-            <Button iconRight success large style={styles.directionsButton} onPress={this._onForward}>
-                <Text style={{fontSize: 20, color: 'white'}}> Get Directions   </Text>
+        <View style={{width: "100%", height: "20%", padding: "10%"}}>
+            <Button iconLeft success large style={styles.navigateButton} onPress={this._onForward}>
+                <Text style={{fontSize: 20, color: 'white'}}>Navigate</Text>
                 <Icon name='navigate'/>
             </Button>
         </View>
-        <View style={{width: "100%", height: "15%", padding: "8%"}}>
-            <Button iconRight info style={styles.submitButton} onPress={this._submitDirections}>
+        <View style={{width: "100%", height: "17%", padding: "8%"}}>
+            <Button iconLeft info style={styles.submitButton} onPress={this._submitDirections}>
                 <Text style={{fontSize: 15, color: 'white'}}>Submit Directions</Text>
                 <Icon name='share' />
             </Button>
         </View>
-        <View style={{width: "100%", height: "15%", padding: "8%"}}>
+        <View style={{width: "100%", height: "15%", padding: "5%"}}>
             <Text style={styles.textBack}>Swipe Right to Go Back</Text>
         </View>
       </View>

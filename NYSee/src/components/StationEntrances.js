@@ -69,7 +69,7 @@ _selectedEntrance(entrance) {
              containerStyle={styles.dropdown}
              onChangeText={this._selectedEntrance.bind(this)}
            />
-           <Button iconRight primary style={styles.continueButton} onPress={this._onForward}>
+           <Button iconLeft primary large style={styles.continueButton} onPress={this._onForward}>
              <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
              <Icon name='arrow-forward' />
            </Button>
