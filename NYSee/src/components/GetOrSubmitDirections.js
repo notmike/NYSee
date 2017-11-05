@@ -64,19 +64,23 @@ _submitDirections() {
             source={require('../img/nysee.png')}
         />
         <View style={styles.spacer} />
-        <View style={{width: "100%", height: "10%", padding: 10, backgroundColor: 'powderblue'}}>
-            <Text style={styles.subtitle}>From:   {selectedStation} - {selectedEntrance}</Text>
+        <View style={{width: "100%", height: "10%", padding: 10}}>
+            <Icon name='disc'>
+              <Text style={styles.subtitle}>  {selectedStation} @ {selectedEntrance}</Text>
+            </Icon>
         </View>
-        <View style={{width: "100%", height: "5%", padding: 10, backgroundColor: 'honeydew'}}>
-            <Text style={styles.subtitle}>To:     The {selectedPlatform} train</Text>
+        <View style={{width: "100%", height: "5%", padding: 10}}>
+            <Icon name='pin' >
+              <Text style={styles.subtitle}>    The {selectedPlatform} train</Text>
+            </Icon>
         </View>
-        <View style={{width: "100%", height: "20%", padding: "10%"}}>
+        <View style={{width: "100%", height: "20%", padding: "12%"}}>
             <Button iconLeft success large style={styles.navigateButton} onPress={this._onForward}>
                 <Text style={{fontSize: 20, color: 'white'}}>Navigate</Text>
                 <Icon name='navigate'/>
             </Button>
         </View>
-        <View style={{width: "100%", height: "17%", padding: "8%"}}>
+        <View style={{width: "100%", height: "12%", padding: "6%"}}>
             <Button iconLeft info style={styles.submitButton} onPress={this._submitDirections}>
                 <Text style={{fontSize: 15, color: 'white'}}>Submit Directions</Text>
                 <Icon name='share' />
