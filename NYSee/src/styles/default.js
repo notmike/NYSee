@@ -50,7 +50,11 @@ module.exports = StyleSheet.create({
     color: 'gray',
     fontStyle: 'italic',
   },
-  upstairs_icon: {
+  subtitleSmall: {
+    fontSize: 14,
+    color: 'gray',
+  },
+   upstairs_icon: {
     marginRight: '5%',
   },
   downstairs_icon: {

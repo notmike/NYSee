@@ -63,17 +63,29 @@ _submitDirections() {
             style={styles.logo}
             source={require('../img/nysee.png')}
         />
+
         <View style={styles.spacer} />
-        <View style={{width: "100%", height: "10%", padding: 10}}>
-            <Icon name='disc'>
-              <Text style={styles.subtitle}>  {selectedStation} @ {selectedEntrance}</Text>
-            </Icon>
+
+
+        <View style={{flexDirection: "row", width: "100%", height: "8%", padding: "2%"}}>
+            <View style={{width:"10%", alignItems:'center'}}>
+                <Icon name='disc'/>
+            </View>
+            <View style={{width:"90%"}}>
+                <Text style={styles.subtitleSmall}>{selectedStation} @ {selectedEntrance}</Text>
+            </View>
         </View>
-        <View style={{width: "100%", height: "5%", padding: 10}}>
-            <Icon name='pin' >
-              <Text style={styles.subtitle}>    The {selectedPlatform} train</Text>
-            </Icon>
+
+        <View style={{flexDirection: "row", width: "100%", height: "8%", padding: "2%"}}>
+            <View style={{width:"10%", alignItems:'center'}}>
+                <Icon name='pin' />
+            </View>
+            <View style={{width:"90%", top: "1%"}}>
+                <Text style={styles.subtitleSmall}>The {selectedPlatform} train</Text>
+            </View>
         </View>
+
+
         <View style={{width: "100%", height: "20%", padding: "12%"}}>
             <Button iconLeft success large style={styles.navigateButton} onPress={this._onForward}>
                 <Text style={{fontSize: 20, color: 'white'}}>Navigate</Text>
