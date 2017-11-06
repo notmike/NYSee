@@ -10,7 +10,9 @@ export default class PedometerSensor extends React.Component {
     isPedometerAvailable: "checking",
     pastStepCount: 0,
     currentStepCount: 0,
-      loggedDirections: []
+    stepOffset: 0,
+    path: [],
+    finalPath: []
   };
 
   componentDidMount() {
@@ -62,20 +64,36 @@ export default class PedometerSensor extends React.Component {
   };
 
   recordSteps = (d) => {
-    var loggedDirections = this.state.loggedDirections;
-    if(loggedDirections.length != 0) {
-      var previousStep = loggedDirections[loggedDirections.length-1];
-      previousStep.steps = this.state.currentStepCount
-      loggedDirections[loggedDirections.length-1] = previousStep;
-    }
-    loggedDirections = loggedDirections.concat({direction: d, steps: 0});
-    this.setState({loggedDirections, currentStepCount: 0});
+    // load Path object (array of segments so far)
+    var path = this.state.path;
+    // pastStepCount is steps taken up till latest direction change
+    var pastStepCount = this.state.pastStepCount;
 
-    // this.setState(this.state.loggedDirections.push({direction: d, steps: this.state.currentStepCount}));
+    if (path.length != 0) {     // if it's not the user's 1st segment
+      var previousSegment = path[path.length-1];  // load previous segment into new var
+      // assign previous segment corrected num of steps (current pedometer count - steps up to this direction - any offset)
+      previousSegment.steps = this.state.currentStepCount - pastStepCount - this.state.stepOffset;
+      path[path.length-1] = previousSegment;
+    } else {
+        // track erroroneous steps before user clicked first direction
+        stepOffset = this.state.currentStepCount;
+        this.setState({stepOffset: stepOffset});
+        console.log("There's an OFFSET =\t", stepOffset);   // *********** TEST PRINT *********
+    }
+
+    if (d == "FINISHED") {
+        this.setState({finalPath : path});
+        console.log("final path: ", path); 
+    } else {
+        path = path.concat({direction: d, steps: 0});
+        pastStepCount = this.state.currentStepCount;        // make pastStepCount = curr
+        this.setState({path, pastStepCount});
+    }
   }
 
   render() {
-    console.log(this.state.loggedDirections)
+    console.log("Live Path: ", this.state.path)                 // ************** TEST PRINT *************
+    console.log("Final Path: ", this.state.finalPath)                 // ************** TEST PRINT *************
     return (
       <View style={styles.navigationContainer}>
         <View style={{alignItems: 'center', top: 20, height: 100, width:"100%"}}>
@@ -110,7 +128,7 @@ export default class PedometerSensor extends React.Component {
         </View>
 
         <View style={{top:"10%", alignItems: 'center', padding: "5%", width:"100%"}}>
-          <Button block success iconLeft>
+          <Button block success iconLeft onPress={() => this.recordSteps("FINISHED")}>
             <Text style={styles.buttonTextBig}>Finished</Text>
             <Icon name='checkmark-circle' />
           </Button>
