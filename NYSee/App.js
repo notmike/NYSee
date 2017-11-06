@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, NavigatorIOS } from 'react-native';
 import { Footer, FooterTab, Button, Icon, Container } from 'native-base';
 
 import Map from './src/components/Map';
-import Home from './src/components/Home';
+import Home from './src/components/SelectStation';
 import styles from './src/styles/default.js';
 
 export default class App extends React.Component {
@@ -17,7 +17,7 @@ export default class App extends React.Component {
 
   _handleNavigationRequestNearestStations() {
     this.refs.nav.push({
-      component: Home,
+      component: SelectStation,
       title: 'Select Station',
     });
   }
@@ -29,7 +29,7 @@ export default class App extends React.Component {
           ref='nav'
           initialRoute={{
             component: Home,
-            title: 'NYSee',
+            title: 'Select a Station',
           }}
           style={{flex: 1}}
         />
