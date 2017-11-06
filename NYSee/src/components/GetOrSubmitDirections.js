@@ -91,13 +91,13 @@ _submitDirections() {
 
         <View style={{width: "100%", height: "20%", padding: "12%"}}>
             <Button iconLeft success large style={styles.navigateButton} onPress={this._onForward}>
-                <Text style={{fontSize: 20, color: 'white'}}>Navigate</Text>
+                <Text style={styles.buttonTextBig}>Navigate</Text>
                 <Icon name='navigate'/>
             </Button>
         </View>
         <View style={{width: "100%", height: "12%", padding: "6%"}}>
             <Button iconLeft info style={styles.submitButton} onPress={this._submitDirections}>
-                <Text style={{fontSize: 15, color: 'white'}}>Submit Directions</Text>
+                <Text style={styles.buttonTextMedium}>Submit Directions</Text>
                 <Icon name='share' />
             </Button>
         </View>

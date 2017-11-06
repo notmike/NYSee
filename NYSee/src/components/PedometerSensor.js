@@ -1,6 +1,6 @@
 import Expo from "expo";
 import React from "react";
-import { Button } from 'native-base';
+import { Button, Icon } from 'native-base';
 import { Pedometer } from "expo";
 import { TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
 import styles from '../styles/default.js';
@@ -109,7 +109,14 @@ export default class PedometerSensor extends React.Component {
           </TouchableOpacity>
         </View>
 
-        <View style={{top: "10%", alignItems: 'center', padding: "5%", width:"100%"}}>
+        <View style={{top:"10%", alignItems: 'center', padding: "5%", width:"100%"}}>
+          <Button block success iconLeft>
+            <Text style={styles.buttonTextBig}>Finished</Text>
+            <Icon name='checkmark-circle' />
+          </Button>
+        </View>
+
+        <View style={{top: "5%", alignItems: 'center', padding: "5%", width:"100%"}}>
             <Text style={styles.textBack}>
               Pedometer.isAvailableAsync(): {this.state.isPedometerAvailable}
             </Text>

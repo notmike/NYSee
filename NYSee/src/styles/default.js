@@ -39,6 +39,14 @@ module.exports = StyleSheet.create({
     alignSelf: 'center',
     padding: "7%"
   },
+  buttonTextBig: {
+    fontSize: 20,
+    color: 'white',
+  },
+  buttonTextMedium: {
+    fontSize: 15,
+    color: 'white',
+  },
   textBack: {
     fontSize: 15,
     alignSelf: 'center',
