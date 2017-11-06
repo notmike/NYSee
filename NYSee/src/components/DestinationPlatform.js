@@ -24,7 +24,8 @@ export default class DestinationPlatforms extends React.Component {
         stationPlatforms: [],
         selectedStation: this.props.selectedStation,
         selectedEntrance: this.props.selectedEntrance,
-        selectedPlatform: ''
+        selectedPlatform: '',
+        selectedDirection: ''
       }
   }
 
@@ -42,6 +43,8 @@ export default class DestinationPlatforms extends React.Component {
     this.setState({stationData: selectedStationData})
     // set stationPlatforms to be the array of subway lines accessible from user's entrance
     this.setState({stationPlatforms: routes})
+    console.log("stationPlatforms dropdown info:\t", routes)
+
   }
 
   _onForward() {
@@ -49,7 +52,7 @@ export default class DestinationPlatforms extends React.Component {
     this.props.navigator.push({
       component: GetOrSubmitDirections,
       title: 'Get or Submit Directions?',
-      passProps: {index: nextIndex, stationData: this.state.stationData, selectedStation: this.state.selectedStation,  selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform}
+      passProps: {index: nextIndex, stationData: this.state.stationData, selectedStation: this.state.selectedStation,  selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform, selectedDirection: this.state.selectedDirection}
     });
 }
 
@@ -57,7 +60,13 @@ _selectedPlatform(platform) {
       this.setState({selectedPlatform: platform});
   }
 
+_selectedDirection(direction) {
+      this.setState({selectedDirection: direction});
+  }
+
 render() {
+    let trainDirection = [{value : "Uptown"}, {value : "Downtown"}]
+
     return (
       <View style={styles.container}>
       <Image
@@ -71,6 +80,12 @@ render() {
          data={this.state.stationPlatforms.map(x=>({'value': x}))}
          containerStyle={styles.dropdown}
          onChangeText={this._selectedPlatform.bind(this)}
+       />
+      <Dropdown
+         label='Train Direction'
+         data={trainDirection}
+         containerStyle={styles.dropdown}
+         onChangeText={this._selectedDirection.bind(this)}
        />
        <Button iconLeft primary large style={styles.continueButton} onPress={this._onForward}>
          <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>

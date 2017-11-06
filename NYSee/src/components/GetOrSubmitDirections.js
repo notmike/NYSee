@@ -23,18 +23,21 @@ export default class GetOrSubmitDirections extends React.Component {
         stationData: [],
         selectedStation: this.props.selectedStation,
         selectedEntrance: this.props.selectedEntrance,
-        selectedPlatform: ''
+        selectedPlatform: '',
+        selectedDirection: ''
       }
   }
 
   componentWillMount() {
     selectedPlatform = this.props.selectedPlatform
+    selectedDirection = this.props.selectedDirection
 
     console.log("***** GetOrSubmitDirections.js *****\n") // ********* TEST PRINT ************
     console.log("stationData =\t", stationData) // ********* TEST PRINT ************
     console.log("selectedStation =\t", selectedStation) // ********* TEST PRINT ************
     console.log("selectedEntrance =\t", selectedEntrance) // ********* TEST PRINT ************
     console.log("selectedPlatform =\t", selectedPlatform) // ********* TEST PRINT ************
+    console.log("selectedDirection =\t", selectedDirection) // ********* TEST PRINT ************
 
     }
 
@@ -81,7 +84,7 @@ _submitDirections() {
                 <Icon name='pin' />
             </View>
             <View style={{width:"90%", top: "1%"}}>
-                <Text style={styles.subtitleSmall}>The {selectedPlatform} train</Text>
+                <Text style={styles.subtitleSmall}>The {selectedPlatform} train  ({selectedDirection})</Text>
             </View>
         </View>
 
