@@ -1,19 +1,24 @@
 import Expo from "expo";
 import React from "react";
 import { Button, Icon } from 'native-base';
-import { Pedometer } from "expo";
-import { TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
+import { Pedometer, KeepAwake } from "expo";
+import { Modal, TouchableOpacity, TouchableHighlight, StyleSheet, Text, View, Image } from "react-native";
 import styles from '../styles/default.js';
 
 export default class PedometerSensor extends React.Component {
   state = {
+    modalVisible: true,
     isPedometerAvailable: "checking",
-    pastStepCount: 0,
+    stepObjects: [],
     currentStepCount: 0,
     stepOffset: 0,
     path: [],
     finalPath: []
   };
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
 
   componentDidMount() {
     this._subscribe();
@@ -26,7 +31,8 @@ export default class PedometerSensor extends React.Component {
   _subscribe = () => {
     this._subscription = Pedometer.watchStepCount(result => {
       this.setState({
-        currentStepCount: result.steps
+          currentStepCount: result.steps,
+          stepObjects: result
       });
     });
 
@@ -42,20 +48,6 @@ export default class PedometerSensor extends React.Component {
         });
       }
     );
-
-    const end = new Date();
-    const start = new Date();
-    start.setDate(end.getDate() - 1);
-    Pedometer.getStepCountAsync(start, end).then(
-      result => {
-        this.setState({ pastStepCount: result.steps });
-      },
-      error => {
-        this.setState({
-          pastStepCount: "Could not get stepCount: " + error
-        });
-      }
-    );
   };
 
   _unsubscribe = () => {
@@ -66,36 +58,68 @@ export default class PedometerSensor extends React.Component {
   recordSteps = (d) => {
     // load Path object (array of segments so far)
     var path = this.state.path;
-    // pastStepCount is steps taken up till latest direction change
-    var pastStepCount = this.state.pastStepCount;
-
     if (path.length != 0) {     // if it's not the user's 1st segment
       var previousSegment = path[path.length-1];  // load previous segment into new var
       // assign previous segment corrected num of steps (current pedometer count - steps up to this direction - any offset)
-      previousSegment.steps = this.state.currentStepCount - pastStepCount - this.state.stepOffset;
+      previousSegment.steps = this.state.currentStepCount;
       path[path.length-1] = previousSegment;
     } else {
+        // This is the 1st time this function was called ...
+        KeepAwake.activate();   // keep screen on during path recording
         // track erroroneous steps before user clicked first direction
         stepOffset = this.state.currentStepCount;
         this.setState({stepOffset: stepOffset});
-        console.log("There's an OFFSET =\t", stepOffset);   // *********** TEST PRINT *********
+        console.log("There's an OFFSET =\t", stepOffset);   // ************** TEST PRINT *************
     }
-
+    // when user clicks finished, make current path the finalPath
     if (d == "FINISHED") {
         this.setState({finalPath : path});
         console.log("final path: ", path); 
+        KeepAwake.deactivate();   // turn off screen wake since finished recording
     } else {
+        // for each direction press, create a new segment and update the path state
         path = path.concat({direction: d, steps: 0});
-        pastStepCount = this.state.currentStepCount;        // make pastStepCount = curr
-        this.setState({path, pastStepCount});
+        this.setState({path});
     }
   }
 
   render() {
-    console.log("Live Path: ", this.state.path)                 // ************** TEST PRINT *************
-    console.log("Final Path: ", this.state.finalPath)                 // ************** TEST PRINT *************
+    console.log("Live Path: ", this.state.path)             // ************** TEST PRINT *************
+    console.log("Final Path: ", this.state.finalPath)       // ************** TEST PRINT *************
     return (
       <View style={styles.navigationContainer}>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+          >
+         <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'rgba(0,0,0,0.8)'}}>
+
+             <View style={styles.spacer} />
+
+             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                 <Button iconLeft large rounded danger style={{padding: "7%", alignSelf: 'center', right: 15}} onPress={() => {this.setModalVisible(!this.state.modalVisible)}}>
+                   <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>Close</Text>
+                   <Icon name='close' /> 
+               </Button>
+             </View>
+
+             <View style={{flexDirection: 'column', justifyContent: 'center'}}>
+               <Text style={styles.h1_white}>How to Create Directions</Text>
+               <View style={styles.spacer} />
+               <View style={styles.spacer} />
+               <Text style={styles.p_white}>1. Click a direction arrow and then simply walk.</Text> 
+               <View style={styles.spacer} />
+               <Text style={styles.p_white}>2. If you click the wrong arrow button, just tap undo.</Text> 
+               <View style={styles.spacer} />
+               <Text style={styles.p_white}>3. Click "Finished" when you've arrived at your destination.</Text> 
+             </View>
+
+         </View>
+        </Modal>
+
         <View style={{alignItems: 'center', top: 20, height: 100, width:"100%"}}>
             <TouchableOpacity onPress={() => this.recordSteps("FORWARD")}>
               <Image source={require('../img/arrow_up.png')}/>
@@ -111,9 +135,9 @@ export default class PedometerSensor extends React.Component {
           </TouchableOpacity>
         </View>
 
-        <View style={{alignItems: 'center', width:"100%", height: 100, top: 35}}>
-          <TouchableOpacity onPress={() => this.recordSteps("BACK")}>
-            <Image source={require('../img/arrow_down.png')} />
+        <View style={{alignItems: 'center', width:"100%", height: 80, top: 35}}>
+          <TouchableOpacity onPress={() => this.recordSteps("UNDO")}>
+            <Image source={require('../img/undo_arrow.png')} />
         </TouchableOpacity>
         </View>
 

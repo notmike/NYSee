@@ -29,6 +29,7 @@ export default class GetOrSubmitDirections extends React.Component {
   }
 
   componentWillMount() {
+    stationData = this.props.stationData
     selectedPlatform = this.props.selectedPlatform
     selectedDirection = this.props.selectedDirection
 

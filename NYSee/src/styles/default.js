@@ -20,6 +20,17 @@ module.exports = StyleSheet.create({
     color: 'black',
     fontWeight: 'bold',
   },
+  h1_white: {
+    fontSize: 25,
+    alignSelf: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  p_white: {
+    fontSize: 16,
+    color: 'white',
+    left: 15,
+  },
   logo: {
     resizeMode: 'cover',
   },

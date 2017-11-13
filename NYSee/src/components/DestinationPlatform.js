@@ -43,8 +43,6 @@ export default class DestinationPlatforms extends React.Component {
     this.setState({stationData: selectedStationData})
     // set stationPlatforms to be the array of subway lines accessible from user's entrance
     this.setState({stationPlatforms: routes})
-    console.log("stationPlatforms dropdown info:\t", routes)
-
   }
 
   _onForward() {
