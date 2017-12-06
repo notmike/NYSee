@@ -1,11 +1,25 @@
 import Expo from "expo";
 import React from "react";
+import { NavigatorIOS } from 'react-native';
 import { Button, Icon } from 'native-base';
 import { Pedometer, KeepAwake } from "expo";
+import DirectionValidation from './DirectionValidation.js';
 import { Modal, TouchableOpacity, TouchableHighlight, StyleSheet, Text, View, Image } from "react-native";
+import PropTypes from 'prop-types';
 import styles from '../styles/default.js';
 
 export default class PedometerSensor extends React.Component {
+  static propTypes = {
+    route: PropTypes.shape({
+      title: PropTypes.string.isRequired
+    }),
+    navigator: PropTypes.object.isRequired,
+  }
+
+  constructor(props, context) {
+    super(props, context)
+  }
+
   state = {
     modalVisible: true,
     isPedometerAvailable: "checking",
@@ -14,7 +28,7 @@ export default class PedometerSensor extends React.Component {
     stepOffset: 0,
     path: [],
     finalPath: []
-  };
+  }
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
@@ -55,6 +69,16 @@ export default class PedometerSensor extends React.Component {
     this._subscription = null;
   };
 
+  _submitDirections = () => {
+    this.recordSteps("FINISHED")
+    let nextIndex = ++this.props.index;
+    this.props.navigator.push({
+      component: DirectionValidation,
+      title: 'Direction Submission Success!',
+      passProps: {index: nextIndex, finalPath: this.state.finalPath}
+    });
+  }
+
   recordSteps = (d) => {
     // load Path object (array of segments so far)
     var path = this.state.path;
@@ -74,14 +98,27 @@ export default class PedometerSensor extends React.Component {
     // when user clicks finished, make current path the finalPath
     if (d == "FINISHED") {
         this.setState({finalPath : path});
-        console.log("final path: ", path); 
+        console.log("final path: ", path);
         KeepAwake.deactivate();   // turn off screen wake since finished recording
+
     } else {
         // for each direction press, create a new segment and update the path state
         path = path.concat({direction: d, steps: 0});
         this.setState({path});
     }
   }
+
+
+
+
+  // fetch('https://nysee.herokuapp.com/v1/stations.json', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Accept': 'application/json',
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({this.state.finalPath})
+  // };
 
   render() {
     console.log("Live Path: ", this.state.path)             // ************** TEST PRINT *************
@@ -102,7 +139,7 @@ export default class PedometerSensor extends React.Component {
              <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                  <Button iconLeft large rounded danger style={{padding: "7%", alignSelf: 'center', right: 15}} onPress={() => {this.setModalVisible(!this.state.modalVisible)}}>
                    <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>Close</Text>
-                   <Icon name='close' /> 
+                   <Icon name='close' />
                </Button>
              </View>
 
@@ -110,11 +147,11 @@ export default class PedometerSensor extends React.Component {
                <Text style={styles.h1_white}>How to Create Directions</Text>
                <View style={styles.spacer} />
                <View style={styles.spacer} />
-               <Text style={styles.p_white}>1. Click a direction arrow and then simply walk.</Text> 
+               <Text style={styles.p_white}>1. Click a direction arrow and then simply walk.</Text>
                <View style={styles.spacer} />
-               <Text style={styles.p_white}>2. If you click the wrong arrow button, just tap undo.</Text> 
+               <Text style={styles.p_white}>2. If you click the wrong arrow button, just tap undo.</Text>
                <View style={styles.spacer} />
-               <Text style={styles.p_white}>3. Click "Finished" when you've arrived at your destination.</Text> 
+               <Text style={styles.p_white}>3. Click "Finished" when youve arrived at your destination.</Text>
              </View>
 
          </View>
@@ -152,7 +189,8 @@ export default class PedometerSensor extends React.Component {
         </View>
 
         <View style={{top:"10%", alignItems: 'center', padding: "5%", width:"100%"}}>
-          <Button block success iconLeft onPress={() => this.recordSteps("FINISHED")}>
+          <Button block success iconLeft
+          onPress={() => this._submitDirections()}>
             <Text style={styles.buttonTextBig}>Finished</Text>
             <Icon name='checkmark-circle' />
           </Button>
