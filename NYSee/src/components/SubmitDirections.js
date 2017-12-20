@@ -76,20 +76,19 @@ export default class SubmitDirections extends React.Component {
     this._subscription = null;
   };
 
-  _onPressButtonPUT = () => {
+  _onPressButtonPUT = (path) => {
     fetch('http://db.nysee.org/path/' + this.state.finalPathString, {
         method: "PUT",
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({path: this.state.finalPath})
+        body: JSON.stringify({path: path})
       }
     )
   }
 
   _submitDirections = () => {
-    this._onPressButtonPUT();
     this.recordSteps("FINISHED")
     let nextIndex = ++this.props.index;
     this.props.navigator.push({
@@ -118,7 +117,7 @@ export default class SubmitDirections extends React.Component {
     // when user clicks finished, make current path the finalPath
     if (d == "FINISHED") {
         this.setState({finalPath : path});
-        console.log("final path: ", path);
+        this._onPressButtonPUT(path);
         KeepAwake.deactivate();   // turn off screen wake since finished recording
 
     } else {
