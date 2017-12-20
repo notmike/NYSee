@@ -8,7 +8,7 @@ import { Modal, TouchableOpacity, TouchableHighlight, StyleSheet, Text, View, Im
 import PropTypes from 'prop-types';
 import styles from '../styles/default.js';
 
-export default class PedometerSensor extends React.Component {
+export default class SubmitDirections extends React.Component {
   static propTypes = {
     route: PropTypes.shape({
       title: PropTypes.string.isRequired
@@ -208,4 +208,4 @@ export default class PedometerSensor extends React.Component {
   }
 }
 
-Expo.registerRootComponent(PedometerSensor);
+Expo.registerRootComponent(SubmitDirections);
