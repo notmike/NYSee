@@ -27,14 +27,21 @@ export default class SubmitDirections extends React.Component {
     currentStepCount: 0,
     stepOffset: 0,
     path: [],
-    finalPath: []
+    finalPath: [],
+    finalPathString: ""
+  }
+
+  componentWillMount() {
+    const selectedEntrance = this.props.selectedEntrance.split(' ').join('')
+    const finalString = this.props.selectedStation + selectedEntrance + this.props.selectedPlatform + this.props.selectedDirection
+    this.setState({finalPathString: finalString.replace(' ', '')})
   }
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
 
-  componentDidMount() {
+  componentDidMount() {1
     this._subscribe();
   }
 
@@ -69,7 +76,20 @@ export default class SubmitDirections extends React.Component {
     this._subscription = null;
   };
 
+  _onPressButtonPUT = () => {
+    fetch('http://db.nysee.org/path/' + this.state.finalPathString, {
+        method: "PUT",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({path: this.state.finalPath})
+      }
+    )
+  }
+
   _submitDirections = () => {
+    this._onPressButtonPUT();
     this.recordSteps("FINISHED")
     let nextIndex = ++this.props.index;
     this.props.navigator.push({
@@ -108,21 +128,10 @@ export default class SubmitDirections extends React.Component {
     }
   }
 
-
-
-
-  // fetch('https://nysee.herokuapp.com/v1/stations.json', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify({this.state.finalPath})
-  // };
-
   render() {
     console.log("Live Path: ", this.state.path)             // ************** TEST PRINT *************
     console.log("Final Path: ", this.state.finalPath)       // ************** TEST PRINT *************
+
     return (
       <View style={styles.navigationContainer}>
 

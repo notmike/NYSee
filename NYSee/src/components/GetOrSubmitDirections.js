@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { Button, Icon } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
 import PropTypes from 'prop-types';
-import PedometerSensor from './PedometerSensor.js';
+import SubmitDirections from './SubmitDirections.js';
 styles = require('../styles/default.js');
 
 export default class GetOrSubmitDirections extends React.Component {
@@ -32,14 +32,14 @@ export default class GetOrSubmitDirections extends React.Component {
     stationData = this.props.stationData
     selectedPlatform = this.props.selectedPlatform
     selectedDirection = this.props.selectedDirection
-
+    this.setState({selectedPlatform: this.props.selectedPlatform})
+    this.setState({selectedDirection: this.props.selectedDirection})
     console.log("***** GetOrSubmitDirections.js *****\n") // ********* TEST PRINT ************
     console.log("stationData =\t", stationData) // ********* TEST PRINT ************
     console.log("selectedStation =\t", selectedStation) // ********* TEST PRINT ************
     console.log("selectedEntrance =\t", selectedEntrance) // ********* TEST PRINT ************
     console.log("selectedPlatform =\t", selectedPlatform) // ********* TEST PRINT ************
     console.log("selectedDirection =\t", selectedDirection) // ********* TEST PRINT ************
-
     }
 
   _onForward() {
@@ -54,9 +54,9 @@ export default class GetOrSubmitDirections extends React.Component {
 _submitDirections() {
   let nextIndex = ++this.props.index;
   this.props.navigator.push({
-    component: PedometerSensor,
+    component: SubmitDirections,
     title: 'Submit Directions',
-    passProps: {index: nextIndex, stationData: this.state.stationData, selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform}
+    passProps: {index: nextIndex, stationData: this.state.stationData, selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform, selectedDirection: this.state.selectedDirection, selectedStation: this.state.selectedStation}
   });
 }
 
