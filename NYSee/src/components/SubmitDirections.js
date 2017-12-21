@@ -34,7 +34,8 @@ export default class SubmitDirections extends React.Component {
   componentWillMount() {
     const selectedEntrance = this.props.selectedEntrance.split(' ').join('')
     const finalString = this.props.selectedStation + selectedEntrance + this.props.selectedPlatform + this.props.selectedDirection
-    this.setState({finalPathString: finalString.replace(' ', '')})
+    var finalStringNoSpaces = finalString.replace(/\s+/g, '');
+    this.setState({finalPathString: finalStringNoSpaces})
   }
 
   setModalVisible(visible) {
