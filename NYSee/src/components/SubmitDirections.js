@@ -32,7 +32,7 @@ export default class SubmitDirections extends React.Component {
   }
 
   componentWillMount() {
-    const selectedEntrance = this.props.selectedEntrance.split(' ').join('')
+    const selectedEntrance = this.props.selectedEntrance.replace(/\s+/g, '');
     const finalString = this.props.selectedStation + selectedEntrance + this.props.selectedPlatform + this.props.selectedDirection
     var finalStringNoSpaces = finalString.replace(/\s+/g, '');
     this.setState({finalPathString: finalStringNoSpaces})

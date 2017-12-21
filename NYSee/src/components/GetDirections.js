@@ -31,7 +31,7 @@ export default class GetDirections extends React.Component {
   }
 
   componentWillMount() {
-    const selectedEntrance = this.props.selectedEntrance.split(' ').join('')
+    const selectedEntrance = this.props.selectedEntrance.replace(/\s+/g, '');
     var finalString = this.props.selectedStation + selectedEntrance + this.props.selectedPlatform + this.props.selectedDirection
     finalString = finalString.replace(/\s+/g, '');
     fetch('http://db.nysee.org/path/' + finalString, {
