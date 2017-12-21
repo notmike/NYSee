@@ -4,6 +4,7 @@ import { Button, Icon } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
 import PropTypes from 'prop-types';
 import SubmitDirections from './SubmitDirections.js';
+import GetDirections from './GetDirections.js';
 styles = require('../styles/default.js');
 
 export default class GetOrSubmitDirections extends React.Component {
@@ -18,6 +19,7 @@ export default class GetOrSubmitDirections extends React.Component {
   constructor(props, context) {
     super(props, context)
     this._submitDirections = this._submitDirections.bind(this)
+    this._getDirections = this._getDirections.bind(this);
 
       this.state = {
         stationData: [],
@@ -42,23 +44,23 @@ export default class GetOrSubmitDirections extends React.Component {
     console.log("selectedDirection =\t", selectedDirection) // ********* TEST PRINT ************
     }
 
-  _onForward() {
-    // let nextIndex = ++this.props.index;
-    // this.props.navigator.push({
-    //   component: GetOrSubmitDirections,
-    //   title: 'Get or Submit Directions?',
-    //   passProps: {index: nextIndex, stationData: this.state.stationData, selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform}
-    // });
-}
+  _getDirections() {
+    let nextIndex = ++this.props.index;
+    this.props.navigator.push({
+      component: GetDirections,
+      title: 'Fetching Directions',
+      passProps: {index: nextIndex, stationData: this.state.stationData, selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform, selectedDirection: this.state.selectedDirection, selectedStation: this.state.selectedStation}
+    });
+  }
 
-_submitDirections() {
-  let nextIndex = ++this.props.index;
-  this.props.navigator.push({
-    component: SubmitDirections,
-    title: 'Submit Directions',
-    passProps: {index: nextIndex, stationData: this.state.stationData, selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform, selectedDirection: this.state.selectedDirection, selectedStation: this.state.selectedStation}
-  });
-}
+  _submitDirections() {
+    let nextIndex = ++this.props.index;
+    this.props.navigator.push({
+      component: SubmitDirections,
+      title: 'Submit Directions',
+      passProps: {index: nextIndex, stationData: this.state.stationData, selectedEntrance: this.state.selectedEntrance, selectedPlatform: this.state.selectedPlatform, selectedDirection: this.state.selectedDirection, selectedStation: this.state.selectedStation}
+    });
+  }
 
   render() {
     return (
@@ -69,7 +71,6 @@ _submitDirections() {
         />
 
         <View style={styles.spacer} />
-
 
         <View style={{flexDirection: "row", width: "100%", height: "8%", padding: "2%"}}>
             <View style={{width:"10%", alignItems:'center'}}>
@@ -89,9 +90,8 @@ _submitDirections() {
             </View>
         </View>
 
-
         <View style={{width: "100%", height: "20%", padding: "12%"}}>
-            <Button iconLeft success large style={styles.navigateButton} onPress={this._onForward}>
+            <Button iconLeft success large style={styles.navigateButton} onPress={this._getDirections}>
                 <Text style={styles.buttonTextBig}>Navigate</Text>
                 <Icon name='navigate'/>
             </Button>
