@@ -47,7 +47,7 @@ export default class GetDirections extends React.Component {
         data: data
     }))
     .then(res => {
-      var directions = res.data.map((x, index) => index+1 + ") Go " + x.direction + ", " + x.steps + " steps \n")
+      var directions = res.data.map((x, index) => "Step " + (index+1) + ") Go " + x.direction + ", " + x.steps + " steps \n")
       this.setState({directions: directions})
     })
   }
@@ -116,12 +116,19 @@ export default class GetDirections extends React.Component {
                 <Text style={styles.subtitleSmall}>The {selectedPlatform} train  ({selectedDirection})</Text>
             </View>
         </View>
-
-        <View style={{top: "5%", alignItems: 'center', padding: "5%", width:"100%"}}>
-          <Text style={styles.textBack}>
-            Pedometer.isAvailableAsync(): {this.state.isPedometerAvailable}
-          </Text>
+        <View style={{alignItems: 'center', width:"100%"}}>
           <Text style={styles.textBack}>Walk! And watch this go up: {this.state.currentStepCount}</Text>
+        </View>
+        <View style={{width: "100%", height: "12%", padding: "6%"}}>
+            <Button iconLeft info style={styles.destination}>
+                <Text style={styles.buttonTextBig}>Reached Destination</Text>
+                <Icon name='checkbox' />
+            </Button>
+            <View style={styles.spacer} />
+            <Button iconLeft info style={styles.report}>
+                <Text style={styles.buttonTextMedium}>Report Directions</Text>
+                <Icon name='chatbubbles' />
+            </Button>
         </View>
       </View>
     );

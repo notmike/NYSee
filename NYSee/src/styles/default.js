@@ -50,6 +50,16 @@ module.exports = StyleSheet.create({
     alignSelf: 'center',
     padding: "7%"
   },
+  destination: {
+    alignSelf: 'center',
+    padding: "7%",
+    backgroundColor: '#007ee5'
+  },
+  report: {
+    alignSelf: 'center',
+    padding: "7%",
+    backgroundColor: '#af0606'
+  },
   buttonTextBig: {
     fontSize: 20,
     color: 'white',
