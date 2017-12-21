@@ -33,7 +33,7 @@ export default class GetDirections extends React.Component {
   componentWillMount() {
     const selectedEntrance = this.props.selectedEntrance.split(' ').join('')
     var finalString = this.props.selectedStation + selectedEntrance + this.props.selectedPlatform + this.props.selectedDirection
-    finalString = finalString.split(' ').join('')
+    finalString = finalString.replace(' ', '')
     fetch('http://db.nysee.org/path/' + finalString, {
         method: "GET",
         headers: {
@@ -47,10 +47,9 @@ export default class GetDirections extends React.Component {
         data: data
     }))
     .then(res => {
-      var directions = res.data.map(x=>x.direction)
-      var steps = res.data.map(x=>x.steps)
+      var directions = res.data.map(x=> " DIRECTION: " + x.direction + " STEPS: " + x.steps + "\n")
       this.setState({directions: directions})
-      this.setState({steps: steps})
+      console.log(directions)
     })
   }
 
@@ -92,8 +91,16 @@ export default class GetDirections extends React.Component {
   render() {
     return (
       <View style={styles.navigationContainer}>
-        <Text>{this.state.directions}</Text>
-        <Text>{this.state.steps}</Text>
+        <Text>
+          {this.state.directions}
+        </Text>
+
+        <View style={{top: "5%", alignItems: 'center', padding: "5%", width:"100%"}}>
+          <Text style={styles.textBack}>
+            Pedometer.isAvailableAsync(): {this.state.isPedometerAvailable}
+          </Text>
+          <Text style={styles.textBack}>Walk! And watch this go up: {this.state.currentStepCount}</Text>
+        </View>
       </View>
     );
   }
