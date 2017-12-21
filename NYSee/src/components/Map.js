@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 
 const {WIDTH, HEIGHT} = Dimensions.get('window')
 const SCREEN_HEIGHT = HEIGHT
@@ -71,10 +71,10 @@ export default class Map extends React.Component {
       <View style={styles.container}>
         <MapView
           style={styles.map}
+          provider={PROVIDER_GOOGLE}
           region={this.state.initialPosition}
           mapType="standard"
           showsUserLocation={true}
-          showsMyLocationButton={true}
           showsPointsOfInterest={true}
           showsCompass={true}
           showsBuildings={true}
