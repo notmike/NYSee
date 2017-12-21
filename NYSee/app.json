@@ -1,7 +1,7 @@
 {
    "expo": {
     "name": "NYSee",
-    "icon": "/home/mg/git/NYSee/images/icon.png",
+    "icon": "./src/img/icon.png",
     "version": "0.0.1",
     "slug": "you-see-better",
     "sdkVersion": "21.0.0",
