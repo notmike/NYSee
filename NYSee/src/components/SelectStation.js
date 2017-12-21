@@ -136,7 +136,7 @@ export default class SelectStation extends React.Component {
             containerStyle={styles.dropdown}
             onChangeText={this._selectedStation.bind(this)}
           />
-          <View style={{width: "100%", height: "15%", padding: "8%"}}> 
+          <View style={{width: "100%", height: "15%", padding: "8%"}}>
              <Button iconLeft primary large style={styles.continueButton} onPress={this._onForward}>
                 <Text style={{fontSize: 20, color: 'white'}}>Continue</Text>
                 <Icon name='arrow-forward' />
