@@ -47,13 +47,12 @@ export default class GetDirections extends React.Component {
         data: data
     }))
     .then(res => {
-      var directions = res.data.map(x=> " DIRECTION: " + x.direction + " STEPS: " + x.steps + "\n")
+      var directions = res.data.map((x, index) => index+1 + ") Go " + x.direction + ", " + x.steps + " steps \n")
       this.setState({directions: directions})
-      console.log(directions)
     })
   }
 
-  componentDidMount() {1
+  componentDidMount() {
     this._subscribe();
   }
 
@@ -91,9 +90,32 @@ export default class GetDirections extends React.Component {
   render() {
     return (
       <View style={styles.navigationContainer}>
-        <Text>
+        <Image
+            style={styles.logo}
+            source={require('../img/nysee.png')}
+        />
+        <View style={styles.spacer} />
+        <View style={{flexDirection: "row", width: "100%", height: "8%", padding: "2%"}}>
+            <View style={{width:"10%", alignItems:'center'}}>
+                <Icon name='disc'/>
+            </View>
+            <View style={{width:"90%"}}>
+                <Text style={styles.subtitleSmall}>{selectedStation} @ {selectedEntrance}</Text>
+            </View>
+        </View>
+
+        <Text style={styles.directions}>
           {this.state.directions}
         </Text>
+
+        <View style={{flexDirection: "row", width: "100%", height: "8%", padding: "2%"}}>
+            <View style={{width:"10%", alignItems:'center'}}>
+                <Icon name='pin' />
+            </View>
+            <View style={{width:"90%", top: "1%"}}>
+                <Text style={styles.subtitleSmall}>The {selectedPlatform} train  ({selectedDirection})</Text>
+            </View>
+        </View>
 
         <View style={{top: "5%", alignItems: 'center', padding: "5%", width:"100%"}}>
           <Text style={styles.textBack}>

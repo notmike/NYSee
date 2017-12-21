@@ -69,6 +69,11 @@ module.exports = StyleSheet.create({
     color: 'gray',
     fontStyle: 'italic',
   },
+  directions: {
+    fontSize: 20,
+    color: 'gray',
+    fontStyle: 'italic',
+  },
   subtitleSmall: {
     fontSize: 14,
     color: 'gray',
