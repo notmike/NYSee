@@ -84,7 +84,7 @@ export default class SubmitDirections extends React.Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({path: path})
+        body: JSON.stringify( {path: path}, {totalSteps: 0} )
       }
     )
   }
